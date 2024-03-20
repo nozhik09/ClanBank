@@ -23,8 +23,8 @@ public class BankAccountRepository {
         Currency currencyJPY = new Currency("Japanese Yen", "JPY");
 
         bankAccounts.put(101, new BankAccount(1000.0, 101, adminUser, currencyEUR));
-        bankAccounts.put(102, new BankAccount(2000.0, 101, user2, currencyUSD));
-        bankAccounts.put(103, new BankAccount(3000.0, 101, user3, currencyJPY));
+        bankAccounts.put(102, new BankAccount(2000.0, 102, user2, currencyUSD));
+        bankAccounts.put(103, new BankAccount(3000.0, 103, user3, currencyJPY));
 
     }
 
