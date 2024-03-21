@@ -2,39 +2,39 @@ package model;
 
 import java.time.LocalDateTime;
 
-public class Rate {
+public class Course {
 
 //    private Currency currency;
     private double course;
     LocalDateTime localDateTime;
 
 
-    public Rate(double course) {
+    public Course(double course) {
         this.course = course;
         localDateTime = LocalDateTime.now();
-    }
-
-    public Currency getCurrency() {
-        return currency;
     }
 
     public double getCourse() {
         return course;
     }
 
-    public void setCurrency(Currency currency) {
-        this.currency = currency;
-    }
-
     public void setCourse(double course) {
         this.course = course;
     }
 
+    public LocalDateTime getLocalDateTime() {
+        return localDateTime;
+    }
+
+    public void setLocalDateTime(LocalDateTime localDateTime) {
+        this.localDateTime = localDateTime;
+    }
+
     @Override
     public String toString() {
-        return "CurrencyExchange{" +
-                "currency=" + currency +
-                ", course=" + course +
+        return "Rate{" +
+                "course=" + course +
+                ", localDateTime=" + localDateTime +
                 '}';
     }
 }
