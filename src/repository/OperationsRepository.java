@@ -10,6 +10,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 public class OperationsRepository {
+
     private Map<Integer, Operations> operationsMap = new HashMap<>();
 
     // Добавление операции
