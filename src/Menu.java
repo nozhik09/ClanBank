@@ -18,6 +18,7 @@ public class Menu {
         CHANGES_EXCHANGE("Изменение курса валют"),
         EXIT("Выход");
 
+
         private final String title;
 
         MenuItem(String title) {
