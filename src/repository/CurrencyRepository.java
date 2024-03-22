@@ -1,47 +1,70 @@
 package repository;
 
 
+import model.Course;
 import model.Currency;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.io.*;
+import java.util.*;
 
 public class CurrencyRepository {
 
+    private Map<Currency, Course> courseMap = new HashMap<>();
+    String path = "src/repository/test.txt";
 
-    private List<Currency> currencyList;
 
-    public CurrencyRepository() {
-        this.currencyList = new ArrayList<>();
-        listCurrency();
+    public CurrencyRepository(Map<Currency, Course> courseMap) {
+        this.courseMap = courseMap;
+        setCourseMap();
     }
 
-    public void listCurrency() {
-        currencyList.add(new Currency("Euro", "EUR"));
-        currencyList.add(new Currency("Dollar", "USD"));
+    public void setCourseMap() {
+        Course courseEUR = new Course(1);
+        Course courseUSD = new Course(1.08);
+        Currency currencyEUR = new Currency("Euro", "EUR");
+        Currency currencyUSD = new Currency("American Dollar", "USD");
+        courseMap.put(currencyEUR, courseEUR);
+        courseMap.put(currencyUSD , courseUSD);
+
+    }
+    public Map<Currency,Course> getMupCourse(){
+        return courseMap;
     }
 
-    public List<Currency> getCurrencyList() {
-        return currencyList;
+
+
+
+    public void removeCourse(String code){
+
+
+
     }
 
-    public Currency addCurrency(String name, String code) {
+
+
+
+    public void addCurrency(String code,String name, Double value) {
+
+        Course course = new Course(value);
         Currency currency = new Currency(name, code);
-        currencyList.add(currency);
-        return currency;
-    }
-
-
-    public Currency removeCurrency(String code) {
-        for (Currency currency: currencyList){
-            if (currency.getCode().equals(code)){
-                currencyList.remove(currency);
-                return currency;
+        courseMap.put(currency, course);
+        try (BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(path, true))) {
+            if (currency.getCode().contains(code)) {
+                bufferedWriter.write(currency.getCode());
+                bufferedWriter.write(String.valueOf(course));
             }
+            bufferedWriter.newLine();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
-        return  null;
+    }
+
+//    public void showCurrencyHistoryByDate(String date) {
+//        String path = "src/repository/test.txt";
+//        BufferedReader bufferedReader = new BufferedReader(new FileReader(path))
+//
+//
     }
 
 
 
-}
