@@ -13,9 +13,9 @@ public class BankAccountRepository {
     private Map<Integer, BankAccount> bankAccounts = new HashMap<>();
 
     public BankAccountRepository() {
-        Users adminUser = new Users(1, "Vasya@gmail.com", "Kakasss1223!","Kaka50s1223!", Role.USER);
-        Users user2 = new Users(2, "user133", "Vasya@gm3il.com", "Kaka54s1223!", Role.USER);
-        Users user3 = new Users(3, "user143", "Vasya@gm2mail.com", "Kaka35s1223!", Role.USER);
+        Users adminUser = new Users(1, "Vasya@gmail.com", "Kakasss1223!","Kaka50s1223!", Role.USER, new ArrayList<>());
+        Users user2 = new Users(2, "user133", "Vasya@gm3il.com", "Kaka54s1223!", Role.USER, new ArrayList<>());
+        Users user3 = new Users(3, "user143", "Vasya@gm2mail.com", "Kaka35s1223!", Role.USER, new ArrayList<>());
 
         // Инициализация валют
         Currency currencyUSD = new Currency("US Dollar", "USD");

@@ -3,7 +3,7 @@ package model;
 public class BankAccount {
 
     private double balance;
-    private int id;//
+    private int id;
     private Users users;
     private Currency currency;
 

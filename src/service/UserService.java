@@ -10,6 +10,8 @@ import model.Users;
 import repository.UsersRepository;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class UserService {
@@ -160,6 +162,16 @@ public class UserService {
             return null;
         }
     }
+
+    public void deleteUserByEmail(String email) {
+        userRepository.deleteUser(email);
+    }
+
+    public List<Users> getAllUsers() {
+        return userRepository.getAllUsers();
+    }
+
+
 
 
 }

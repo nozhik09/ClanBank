@@ -72,6 +72,10 @@ public class UsersRepository {
         usersMap.remove(id);
     }
 
+    public void deleteUser(String email){
+        usersMap.remove(findUserByEmail(email).getId());
+    }
+
     public void updateUser(Users newUser) {
         int newUserId = newUser.getId();
         Users user = getUserById(newUserId);
