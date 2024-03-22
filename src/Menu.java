@@ -19,7 +19,6 @@ public class Menu {
         EXIT("Выход");
 
 
-
         private final String title;
 
         MenuItem(String title) {
