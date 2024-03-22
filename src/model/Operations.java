@@ -65,7 +65,7 @@ public class Operations {
     }
 
     public enum TypeOperation {
-        DEPOSIT, WITHDRAWAL, EXCHANGE, CLOSE_ACCOUNT;
+        DEPOSIT, WITHDRAWAL, EXCHANGE, CLOSE_ACCOUNT,TRANSFER_OUT,TRANSFER_IN;
     }
 
     @Override

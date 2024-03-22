@@ -25,14 +25,25 @@ public class BankAccountService {
         this.operationService = operationService;
     }
 
+    // Метод для открытия счета с уникальным ID
     public void openAccount(int userId, String currencyCode, double initialBalance) {
-        Users user = userService.getUserById(userId); // Предполагается, что метод getUserById существует в UserService
-        Currency currency = currencyService.getCurrencyByCode(currencyCode); // Предполагается, что метод getCurrencyByCode существует в CurrencyService
+        Users user = userService.getUserById(userId);
+        Currency currency = currencyService.getCurrencyByCode(currencyCode);
 
-        int accountId = bankAccountRepository.getAllBankAccounts().size() + 1;
+        // генерация уникального ID счета
+        int accountId = generateUniqueAccountId();
         BankAccount newAccount = new BankAccount(initialBalance, accountId, user, currency);
         bankAccountRepository.addBankAccount(newAccount);
         System.out.println("Новый счет успешно создан для пользователя с ID: " + userId);
+    }
+
+    // Вспомогательный метод для генерации уникального ID счета
+    private int generateUniqueAccountId() {
+        int accountId = bankAccountRepository.getAllBankAccounts().size() + 1;
+        while (bankAccountRepository.getBankAccountById(accountId).isPresent()) {
+            accountId++;
+        }
+        return accountId;
     }
 
     public void deposit(int accountId, double amount) {
@@ -100,4 +111,38 @@ public class BankAccountService {
             transactions.forEach(System.out::println);
         }
     }
+    // Метод для проверки баланса счета
+    public double checkBalance(int accountId) {
+        Optional<BankAccount> account = bankAccountRepository.getBankAccountById(accountId);
+        return account.map(BankAccount::getBalance).orElseThrow(() -> new RuntimeException("Счет не найден."));
+    }
+    // Метод для перевода средств между счетами
+    public void transfer(int fromAccountId, int toAccountId, double amount) {
+        Optional<BankAccount> fromAccount = bankAccountRepository.getBankAccountById(fromAccountId);
+        Optional<BankAccount> toAccount = bankAccountRepository.getBankAccountById(toAccountId);
+
+        if (fromAccount.isPresent() && toAccount.isPresent() && fromAccount.get().getBalance() >= amount) {
+            // Списание средств со счета отправителя
+            fromAccount.get().setBalance(fromAccount.get().getBalance() - amount);
+            bankAccountRepository.updateBankAccount(fromAccount.get());
+
+            // Зачисление средств на счет получателя
+            toAccount.get().setBalance(toAccount.get().getBalance() + amount);
+            bankAccountRepository.updateBankAccount(toAccount.get());
+
+            // Регистрация операций
+            int operationIdFrom = operationService.generateOperationId();
+            operationService.recordOperation(new Operations(operationIdFrom, -amount, fromAccount.get().getCurrency().getCode(), fromAccountId, Operations.TypeOperation.TRANSFER_OUT));
+
+            int operationIdTo = operationService.generateOperationId();
+            operationService.recordOperation(new Operations(operationIdTo, amount, toAccount.get().getCurrency().getCode(), toAccountId, Operations.TypeOperation.TRANSFER_IN));
+
+            System.out.println("Перевод выполнен.");
+        } else {
+            System.out.println("Перевод невозможен. Проверьте баланс и корректность счетов.");
+        }
+    }
+
+
+
 }
