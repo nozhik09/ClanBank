@@ -1,6 +1,13 @@
-/*
- * created by max$
- */
+
+package service;
+
+import model.Users;
+
+public class UserService {
+    public Users getUserById(int userId) {
+        return null;
+    }
+
 
 
 package service;
@@ -170,6 +177,7 @@ public class UserService {
     public List<Users> getAllUsers() {
         return userRepository.getAllUsers();
     }
+
 
 
 

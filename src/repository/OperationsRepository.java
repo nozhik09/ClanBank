@@ -11,9 +11,12 @@ import java.util.stream.Collectors;
 
 public class OperationsRepository {
     private Map<Integer, Operations> operationsMap = new HashMap<>();
+    private  int currentId = 1;
 
     // Добавление операции
     public void addOperation(Operations operation) {
+        operation.setId(currentId++);
+
         operationsMap.put(operation.getId(), operation);
     }
 
@@ -32,7 +35,7 @@ public class OperationsRepository {
     // Получение операций по типу
     public List<Operations> getOperationsByType(TypeOperation typeOperation) {
         return operationsMap.values().stream()
-                .filter(operation -> operation.getTypeOperation() == typeOperation)
+                .filter(operation -> operation.getTypeOperation().equals(typeOperation))
                 .collect(Collectors.toList());
     }
 

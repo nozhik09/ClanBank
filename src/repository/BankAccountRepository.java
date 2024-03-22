@@ -1,5 +1,4 @@
 package repository;
-
 import model.BankAccount;
 import model.Currency;
 import model.Role;

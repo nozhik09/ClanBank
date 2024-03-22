@@ -8,7 +8,7 @@ public class Operations {
     private double sum;
     private String codeCurrency;
     private int idAccount;
-    LocalDateTime localDateTime;
+    private LocalDateTime localDateTime;
     private TypeOperation typeOperation;
 
     public Operations(int id, double sum, String codeCurrency, int idAccount, TypeOperation typeOperation) {
@@ -17,7 +17,7 @@ public class Operations {
         this.codeCurrency = codeCurrency;
         this.idAccount = idAccount;
         this.typeOperation = typeOperation;
-        localDateTime = LocalDateTime.now();
+        this.localDateTime = LocalDateTime.now();
     }
 
     public int getId() {
@@ -52,12 +52,20 @@ public class Operations {
         this.idAccount = idAccount;
     }
 
+    public LocalDateTime getLocalDateTime() {
+        return localDateTime;
+    }
+
     public TypeOperation getTypeOperation() {
         return typeOperation;
     }
 
     public void setTypeOperation(TypeOperation typeOperation) {
         this.typeOperation = typeOperation;
+    }
+
+    public enum TypeOperation {
+        DEPOSIT, WITHDRAWAL, EXCHANGE, CLOSE_ACCOUNT,TRANSFER_OUT,TRANSFER_IN;
     }
 
     @Override
