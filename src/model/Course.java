@@ -1,17 +1,16 @@
 package model;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 public class Course {
 
-//    private Currency currency;
+    //    private Currency currency;
     private double course;
-    LocalDateTime localDateTime;
-
+    LocalDate localDate;
 
     public Course(double course) {
         this.course = course;
-        localDateTime = LocalDateTime.now();
+        this.localDate = LocalDate.now();
     }
 
     public double getCourse() {
@@ -22,19 +21,19 @@ public class Course {
         this.course = course;
     }
 
-    public LocalDateTime getLocalDateTime() {
-        return localDateTime;
+    public LocalDate getLocalDate() {
+        return localDate;
     }
 
-    public void setLocalDateTime(LocalDateTime localDateTime) {
-        this.localDateTime = localDateTime;
+    public void setLocalDate(LocalDate localDate) {
+        this.localDate = localDate;
     }
 
     @Override
     public String toString() {
-        return "Rate{" +
-                "course=" + course +
-                ", localDateTime=" + localDateTime +
+
+        return"Курс=" + course +
+                ", Дата изменения курса =" + localDate +
                 '}';
     }
 }
