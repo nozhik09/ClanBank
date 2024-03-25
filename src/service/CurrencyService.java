@@ -5,7 +5,17 @@ import repository.CurrencyRepository;
 
 import java.util.Set;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class CurrencyService {
+
+    private Map<String,Currency> currencies = new HashMap<>();
+    public CurrencyService() {
+        currencies.put("USD",new Currency("US Dollar","USD"));
+    }
+    public double getExchangeCourse(String code, String targetCurrencyCode) {
+
     CurrencyRepository currencyRepository = new CurrencyRepository();
 
 // метод добаления новой валюты
@@ -16,6 +26,7 @@ public class CurrencyService {
     public Set<Currency> getAllCurrency(){
         return currencyRepository.allCurencies();
     }
+
 
     public Currency addNewCurrency(String code , String name , double rate){
         if (code==null||name==null||code.isEmpty()|| name.isEmpty()) throw new RuntimeException("Код валюты и наименование валюты должно быть заполнено");
@@ -35,4 +46,15 @@ public class CurrencyService {
 
 
 
+
+    public Currency getCurrencyByCode(String currencyCode) {
+        return currencies.get(currencyCode);
+    }
+    public void addCurrency (Currency currency) {
+        currencies.put(currency.getCode(),currency);
+    }
+
 }
+
+}
+
