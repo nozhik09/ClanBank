@@ -6,9 +6,6 @@ import model.Currency;
 import model.Users;
 import model.Operations;
 import repository.BankAccountRepository;
-import service.CurrencyService;
-import service.OperationService;
-import service.UserService;
 
 import java.util.List;
 import java.util.Optional;
@@ -29,11 +26,20 @@ public class BankAccountService {
     // Метод для открытия счета с уникальным ID
     public void openAccount(int userId, String currencyCode, double initialBalance) {
         Users user = userService.getUserById(userId);
-        Currency currency = currencyService.getCurrencyByCode(currencyCode);
+        if (user == null) {
+            System.out.println("Пользователь с ID " + userId + " не найден.");
+            return;
+        }
 
-        // генерация уникального ID счета
+        Currency currency = currencyService.getCurrencyByCode(currencyCode);
+        if (currency == null) {
+            System.out.println("Валюта с кодом " + currencyCode + " не найдена.");
+            return;
+        }
+
         int accountId = generateUniqueAccountId();
         BankAccount newAccount = new BankAccount(initialBalance, accountId, user, currency);
+        user.getBankAccounts().add(newAccount); // Привязываем счет к пользователю
         bankAccountRepository.addBankAccount(newAccount);
         System.out.println("Новый счет успешно создан для пользователя с ID: " + userId);
     }
@@ -57,6 +63,7 @@ public class BankAccountService {
             System.out.println("Счет пополнен на " + amount);
         }, () -> System.out.println("Счет не найден."));
     }
+
     public void withdraw(int accountId, double amount) {
         Optional<BankAccount> account = bankAccountRepository.getBankAccountById(accountId);
         account.ifPresentOrElse(acc -> {
@@ -102,7 +109,6 @@ public class BankAccountService {
     }
 
 
-
     public void printAccountOperation(int accountId) {
         List<Operations> transactions = operationService.getOperationsByAccountId(accountId);
         if (transactions.isEmpty()) {
@@ -112,11 +118,13 @@ public class BankAccountService {
             transactions.forEach(System.out::println);
         }
     }
+
     // Метод для проверки баланса счета
     public double checkBalance(int accountId) {
         Optional<BankAccount> account = bankAccountRepository.getBankAccountById(accountId);
         return account.map(BankAccount::getBalance).orElseThrow(() -> new RuntimeException("Счет не найден."));
     }
+
     // Метод для перевода средств между счетами
     public void transfer(int fromAccountId, int toAccountId, double amount) {
         Optional<BankAccount> fromAccount = bankAccountRepository.getBankAccountById(fromAccountId);
@@ -143,4 +151,4 @@ public class BankAccountService {
             System.out.println("Перевод невозможен. Проверьте баланс и корректность счетов.");
         }
     }
-
+}

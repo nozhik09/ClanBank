@@ -1,14 +1,4 @@
 
-package service;
-
-import model.Users;
-
-public class UserService {
-    public Users getUserById(int userId) {
-        return null;
-    }
-
-
 
 package service;
 
@@ -18,8 +8,6 @@ import repository.UsersRepository;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
-import java.util.concurrent.atomic.AtomicInteger;
 
 public class UserService {
 
@@ -176,6 +164,9 @@ public class UserService {
 
     public List<Users> getAllUsers() {
         return userRepository.getAllUsers();
+    }
+    public Users getUserById(int id){
+        return userRepository.getUserById(id);
     }
 
 

@@ -34,9 +34,11 @@ public class UsersRepository {
     }
 
     public void addUser(Users user) {
-        int id = userId.getAndIncrement();
-        user.setId(id);
-        usersMap.put(id, user);
+        if (user.getId() == 0) {
+            int id = userId.getAndIncrement();
+            user.setId(id);
+        }
+        usersMap.put(user.getId(), user);
     }
     //Добавляем нашему Юзеру аккаут банка, и там выбираем в какой валюте и чего... д
     public void addBankAccountToUserByEmail(String email, BankAccount account) {
