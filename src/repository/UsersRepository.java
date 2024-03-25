@@ -40,6 +40,8 @@ public class UsersRepository {
         }
         usersMap.put(user.getId(), user);
     }
+
+
     //Добавляем нашему Юзеру аккаут банка, и там выбираем в какой валюте и чего... д
     public void addBankAccountToUserByEmail(String email, BankAccount account) {
         Users user = findUserByEmail(email);

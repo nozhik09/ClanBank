@@ -2,8 +2,10 @@
 
 package service;
 
+import model.BankAccount;
 import model.Role;
 import model.Users;
+import repository.BankAccountRepository;
 import repository.UsersRepository;
 
 import java.util.ArrayList;
@@ -11,26 +13,38 @@ import java.util.List;
 
 public class UserService {
 
+
+
     private final UsersRepository userRepository;
 
-    public UserService(UsersRepository userRepository) {
+    private final BankAccountRepository bankAccountRepository;
+
+    public UserService(UsersRepository userRepository, BankAccountRepository bankAccountRepository) {
         this.userRepository = userRepository;
-    }
-
-    private void getUserByEmail(String email) {
-        userRepository.findUserByEmail(email);
+        this.bankAccountRepository = bankAccountRepository;
     }
 
 
-    private void addUser(Users user) {
+    public Users getUserByEmail(String email) {
+       return  userRepository.findUserByEmail(email);
+
+    }
+
+
+    public Users getUserById(int id){
+       return userRepository.getUserById(id);
+    }
+
+
+    public void addUser(Users user) {
         userRepository.addUser(user);
     }
 
 
-    public void registerUser(String name, String email, String password) throws PasswordValidationException {
+    public Users registerUser(String name, String email, String password) throws PasswordValidationException {
         if (userRepository.findUserByEmail(email) != null) {
             System.out.println("Пользователь с таким email уже существует.");
-            return;
+            return null;
         }
 
         try {
@@ -38,15 +52,16 @@ public class UserService {
             isValidPassword(password);
         } catch (EmailValidateException e) {
             System.out.println("Неправильный формат email: " + e.getMessage());
-            return;
+            return null;
         } catch (PasswordValidationException e) {
             System.out.println("Неправильный формат пароля: " + e.getMessage());
-            return;
+            return null;
         }
 
         Users newUser = new Users(userRepository.userId.getAndIncrement(), name, email, password, Role.USER, new ArrayList<>());
         addUser(newUser);
         System.out.println("Пользователь успешно зарегистрирован.");
+        return newUser;
     }
 
 
@@ -168,6 +183,20 @@ public class UserService {
     public Users getUserById(int id){
         return userRepository.getUserById(id);
     }
+
+//ищем счета нашего юзера по емайлу
+    public List<BankAccount> getAllBankAccountUsers(String email){
+        Users user = userRepository.findUserByEmail(email);
+        if (user != null) {
+            int userId = user.getId();
+            return bankAccountRepository.getBankAccountsByUserId(userId);
+        } else {
+            System.out.println("Пользователь с таким email не найден.");
+            return null;
+        }
+    }
+
+
 
 
 
